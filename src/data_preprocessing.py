@@ -61,10 +61,11 @@ def data_preprocessing(df):
 
     # Step 9 : Fit the transformer on seen and unseen dataset.
 
-    X_train = transformer.fit_transform(X_train)   #Seen dataset
-    X_test = transformer.transform(X_test)         #Unseen dataset
+    X_train_transform = transformer.fit_transform(X_train)   #Seen dataset
+    X_test_transform = transformer.transform(X_test)         #Unseen dataset
 
     #Step 10 : Use target column to balance technique
+    #Use SMOT Technique to balance the data
     '''
     * Generally used with clssification model
     * Target column balance technique basically classified into two...
@@ -72,8 +73,8 @@ def data_preprocessing(df):
        - under_sampling technique
     '''
     smote = SMOTE(random_state=1)
-    X_train,y_train = SMOTE().fit_resample(X_train,y_train)
+    X_train_resample,y_train_resample = SMOTE().fit_resample(X_train_transform,y_train)
 
     # Step 11 : Return the preprocess data value
 
-    return X_train, X_test, y_train, y_test
+    return X_train_resample, X_test_transform, y_train_resample, y_test
